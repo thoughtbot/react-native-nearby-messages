@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import RNNearbyMessages from 'react-native-nearby-messages';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,6 +19,10 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  componentDidMount() {
+    RNNearbyMessages.printMessage('testing');
+  }
+
   render() {
     return (
       <View style={styles.container}>

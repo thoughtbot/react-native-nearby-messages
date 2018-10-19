@@ -1,6 +1,6 @@
 {
   "name": "react-native-nearby-messages",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "",
   "license": "",
   "peerDependencies": {
-    "react-native": "^0.41.2"
+    "react-native": "^0.57.3"
   },
   "devDependencies": {
     "react-native": "^0.57.3"
