@@ -1,10 +1,12 @@
 #import <Foundation/Foundation.h>
 #import <GNSMessages.h>
 #import "RNNearbyMessageManager.h"
+#import "RNMessageEventManager.h"
 
 @implementation RNNearbyMessageManager
 GNSMessageManager *messageManager = nil;
 NSMutableDictionary *publications = nil;
+id<GNSSubscription> subscription = nil;
 
 +(id)shared {
     static RNNearbyMessageManager *sharedManager = nil;
@@ -15,7 +17,7 @@ NSMutableDictionary *publications = nil;
     });
     return sharedManager;
 }
-//
+
 -(void)setApiKey:(NSString *)apiKey {
     if(apiKey == nil) {
         @throw [NSException
@@ -24,6 +26,7 @@ NSMutableDictionary *publications = nil;
                 userInfo:nil];
     }
     messageManager = [[GNSMessageManager alloc] initWithAPIKey:apiKey];
+    subscription = [self createSubscription];
 }
 
 -(id)createPublicationWithName:(NSString *)name message:(NSString *)message {
@@ -45,5 +48,18 @@ NSMutableDictionary *publications = nil;
                 reason:@"Message manager was not found"
                 userInfo:nil];
     }
+}
+
+- (id)createSubscription {
+    [self checkMessageManger];
+    id<GNSSubscription> subscription = [messageManager subscriptionWithMessageFoundHandler:^(GNSMessage *message) {
+        NSString *messageContent = [[NSString alloc] initWithData:message.content encoding:NSUTF8StringEncoding];
+        [[RNMessageEventManager shared] sendFoundEventWithMessage:messageContent];
+        
+    } messageLostHandler:^(GNSMessage *message) {
+        NSString *messageContent = [[NSString alloc] initWithData:message.content encoding:NSUTF8StringEncoding];
+        [[RNMessageEventManager shared] sendLostEventWithMessage:messageContent];
+    }];
+    return subscription;
 }
 @end
