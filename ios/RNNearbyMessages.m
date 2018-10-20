@@ -12,7 +12,11 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(printMessage:(NSString*)message)
 {
-    [[[RNNearbyMessageManager alloc] init] printMessage:message];
+    NSLog(@"%@", message);
+}
+
+RCT_EXPORT_METHOD(setApiKey:(NSString*)apiKey) {
+    [[RNNearbyMessageManager shared] setApiKey:apiKey];
 }
 
 @end

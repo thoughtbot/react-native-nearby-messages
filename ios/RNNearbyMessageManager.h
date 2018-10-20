@@ -5,5 +5,6 @@
 #endif /* RNNearbyMessageManager_h */
 
 @interface RNNearbyMessageManager : NSObject
-- (void)printMessage:(NSString*)message;
++(id)shared;
+-(void)setApiKey:(NSString *)apiKey;
 @end
