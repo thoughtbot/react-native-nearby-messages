@@ -19,5 +19,13 @@ RCT_EXPORT_METHOD(setApiKey:(NSString*)apiKey) {
     [[RNNearbyMessageManager shared] setApiKey:apiKey];
 }
 
+RCT_EXPORT_METHOD(createPublication:(NSString*)name message:(NSString*)message) {
+    [[RNNearbyMessageManager shared] createPublication:name message:message];
+}
+
+RCT_EXPORT_METHOD(stopPublication:(NSString*)name) {
+    [[RNNearbyMessageManager shared] stopPublicationWithName:name];
+}
+
 @end
   
