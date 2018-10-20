@@ -31,7 +31,9 @@ id<GNSSubscription> subscription = nil;
 
 -(id)createPublicationWithName:(NSString *)name message:(NSString *)message {
     [self checkMessageManger];
-    id<GNSPublication> publication = [messageManager publicationWithMessage:[GNSMessage messageWithContent:[message dataUsingEncoding:NSUTF8StringEncoding]]];
+    id<GNSPublication> publication = [messageManager publicationWithMessage:
+                                      [GNSMessage messageWithContent:
+                                       [message dataUsingEncoding:NSUTF8StringEncoding]]];
     publications[name] = publication;
     return publication;
 }
@@ -52,12 +54,17 @@ id<GNSSubscription> subscription = nil;
 
 - (id)createSubscription {
     [self checkMessageManger];
-    id<GNSSubscription> subscription = [messageManager subscriptionWithMessageFoundHandler:^(GNSMessage *message) {
-        NSString *messageContent = [[NSString alloc] initWithData:message.content encoding:NSUTF8StringEncoding];
+    id<GNSSubscription> subscription = [messageManager
+                                        subscriptionWithMessageFoundHandler:^(GNSMessage *message) {
+        NSString *messageContent = [[NSString alloc]
+                                    initWithData:message.content
+                                    encoding:NSUTF8StringEncoding];
         [[RNMessageEventManager shared] sendFoundEventWithMessage:messageContent];
         
     } messageLostHandler:^(GNSMessage *message) {
-        NSString *messageContent = [[NSString alloc] initWithData:message.content encoding:NSUTF8StringEncoding];
+        NSString *messageContent = [[NSString alloc]
+                                    initWithData:message.content
+                                    encoding:NSUTF8StringEncoding];
         [[RNMessageEventManager shared] sendLostEventWithMessage:messageContent];
     }];
     return subscription;
